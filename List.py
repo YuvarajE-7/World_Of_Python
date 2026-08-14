@@ -2237,3 +2237,355 @@ Priya 19
 
 """
 
+"""
+22. List of List 
+
+Consider:
+
+marks = [
+    [80, 75, 90],
+    [60, 85, 70],
+    [95, 88, 92]
+]
+
+You can imagine this as a table:
+
+        Subject1  Subject2  Subject3
+Student1   80        75        90
+Student2   60        85        70
+Student3   95        88        92
+
+The outer list contains 3 rows.
+
+Each inner list contains 3 values.
+
+Accessing a particular value
+
+Remember:
+
+marks[row][column]
+
+For example:
+
+marks[0][0]
+
+→ 80
+
+marks[1][2]
+
+→ 70
+
+marks[2][1]
+
+→ 88
+
+Think:
+
+marks[1][2]
+
+
+       row
+        ↓
+marks[1] → [60, 85, 70]
+                      ↑
+                   column 2
+Looping through the table
+
+To print every value:
+
+for row in marks:
+    for value in row:
+        print(value)
+
+Output:
+
+80
+75
+90
+60
+85
+70
+95
+88
+92
+
+The outer loop handles rows.
+
+The inner loop handles values inside each row.
+
+outer loop
+    ↓
+[80, 75, 90]
+    ↓
+inner loop → 80
+             75
+             90
+
+
+outer loop
+    ↓
+[60, 85, 70]
+    ↓
+inner loop → 60
+             85
+             70
+Printing each row
+
+If you only want each row:
+
+for row in marks:
+    print(row)
+
+Output:
+
+[80, 75, 90]
+[60, 85, 70]
+[95, 88, 92]
+Finding the total of all marks
+
+You can combine nested loops with your previous knowledge:
+
+total = 0
+
+
+for row in marks:
+    for value in row:
+        total += value
+
+
+print(total)
+
+Calculate:
+
+80 + 75 + 90
++ 60 + 85 + 70
++ 95 + 88 + 92
+
+→ 735
+
+Finding the largest value
+
+You can also use the same largest-number logic:
+
+largest = marks[0][0]
+
+
+for row in marks:
+    for value in row:
+        if value > largest:
+            largest = value
+
+
+print(largest)
+
+Output:
+
+95
+
+Notice how the concept you learned earlier is still the same:
+
+normal list:
+for x in numbers
+
+
+nested list:
+for row in marks
+    for x in row
+
+The second loop simply goes one level deeper.
+
+"""
+
+
+"""
+23. List of Stack
+
+A stack is a data structure that follows:
+
+LIFO — Last In, First Out
+
+Think of a stack of plates:
+
+      ┌─────┐
+      │ 30  │ ← last plate placed → comes out first
+      ├─────┤
+      │ 20  │
+      ├─────┤
+      │ 10  │
+      └─────┘
+
+Python lists can behave like stacks.
+
+1. Create an empty stack
+stack = []
+
+Initially:
+
+[]
+2. Push elements using append()
+stack.append(10)
+stack.append(20)
+stack.append(30)
+
+Now:
+
+[10, 20, 30]
+
+Each append() puts an element at the end.
+
+append(10) → [10]
+append(20) → [10, 20]
+append(30) → [10, 20, 30]
+3. Remove the top using pop()
+stack.pop()
+
+This removes and returns the last element.
+
+Before: [10, 20, 30]
+                 ↑
+               top
+
+
+pop() → 30
+
+
+After:  [10, 20]
+
+If you do:
+
+x = stack.pop()
+print(x)
+
+Output:
+
+30
+
+And the stack becomes:
+
+[10, 20]
+4. Multiple pops
+stack = [10, 20, 30]
+
+
+print(stack.pop())
+print(stack.pop())
+print(stack.pop())
+
+Output:
+
+30
+20
+10
+
+That's LIFO.
+
+5. What if the stack is empty?
+
+If:
+
+stack = []
+
+and you do:
+
+stack.pop()
+
+Python raises:
+
+IndexError
+
+because there's nothing to remove.
+
+You can safely check:
+
+if stack:
+    stack.pop()
+
+Remember:
+
+if stack:
+
+means:
+
+"If the list is not empty."
+
+
+"""
+
+"""
+For a Python list:
+
+Operation	          Typical Time
+numbers[i]                O(1)
+append()	              O(1) amortized
+pop() from end	          O(1)
+insert(0, x)	          O(n)
+pop(0)	                  O(n)
+remove(x)                 O(n)
+x in numbers	          O(n)
+index(x)	              O(n)
+count(x)	              O(n)
+sort()	                  O(n log n)
+reverse()	              O(n)
+copy()	                  O(n)
+Why is indexing           O(1)?
+
+If:
+
+numbers = [10, 20, 30, 40, 50]
+
+Python can directly access:
+
+numbers[4]
+
+It doesn't need to search through:
+
+10 → 20 → 30 → 40 → 50
+
+It directly goes to the required position.
+
+So:
+
+numbers[i] → O(1)
+Why is append() usually O(1)?
+numbers.append(60)
+
+Python adds it to the end.
+
+But occasionally Python has to allocate a larger underlying array and copy elements, which is why we usually say amortized O(1).
+
+You don't need to worry about the implementation details yet.
+
+Why is insert(0, x) O(n)?
+
+Suppose:
+
+numbers = [10, 20, 30, 40]
+
+You do:
+
+numbers.insert(0, 5)
+
+Python has to shift everything:
+
+Before:
+
+
+[10, 20, 30, 40]
+
+
+        ↓ shift
+
+
+[5, 10, 20, 30, 40]
+    ↑
+   new
+
+That's why it's O(n).
+
+Similarly:
+
+numbers.pop(0)
+
+requires shifting the remaining elements → O(n).
+
+"""
