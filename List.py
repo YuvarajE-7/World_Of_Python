@@ -1151,3 +1151,688 @@ count()  → How many times?      → number
 
 """
 
+
+
+"""
+15. Sorting List
+
+We have four things:
+
+sort()
+sorted()
+reverse()
+reversed()
+
+Let's not mix them up. We'll start with sort().
+
+1. sort()
+
+sort() sorts the original list.
+
+numbers = [40, 10, 30, 20, 50]
+
+
+numbers.sort()
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 30, 40, 50]
+
+Notice something important:
+
+numbers.sort()
+
+changes numbers itself.
+
+Before:
+
+[40, 10, 30, 20, 50]
+
+After:
+
+[10, 20, 30, 40, 50]
+Descending order
+
+You can use:
+
+numbers.sort(reverse=True)
+
+Example:
+
+numbers = [40, 10, 30, 20, 50]
+
+
+numbers.sort(reverse=True)
+
+
+print(numbers)
+
+Output:
+
+[50, 40, 30, 20, 10]
+2. sorted()
+
+sorted() is different.
+
+It creates and returns a new sorted list.
+
+numbers = [40, 10, 30, 20, 50]
+
+
+new_numbers = sorted(numbers)
+
+
+print(new_numbers)
+print(numbers)
+
+Output:
+
+[10, 20, 30, 40, 50]
+[40, 10, 30, 20, 50]
+
+Notice:
+
+sort()    → changes original list
+sorted()  → leaves original list unchanged
+
+That's the main difference.
+
+Think about it this way
+numbers.sort()
+
+means:
+
+"Sort this list."
+
+While:
+
+new_numbers = sorted(numbers)
+
+means:
+
+"Give me a sorted version of this list."
+
+Quick comparison
+sort()                 sorted()
+  ↓                       ↓
+changes original       creates new list
+
+Example:
+
+numbers = [30, 10, 20]
+
+
+numbers.sort()
+
+
+# numbers → [10, 20, 30]
+
+versus:
+
+numbers = [30, 10, 20]
+
+
+result = sorted(numbers)
+
+
+# numbers → [30, 10, 20]
+# result  → [10, 20, 30]
+Now let's understand reverse()
+
+Don't confuse reverse with sorting descending.
+
+numbers = [10, 20, 30, 40, 50]
+
+
+numbers.reverse()
+
+
+print(numbers)
+
+Output:
+
+[50, 40, 30, 20, 10]
+
+reverse() simply reverses the current order.
+
+It doesn't sort.
+
+For example:
+
+numbers = [30, 10, 50, 20]
+
+
+numbers.reverse()
+
+
+print(numbers)
+
+Output:
+
+[20, 50, 10, 30]
+
+It simply went:
+
+30  10  50  20
+ ↓   ↓   ↓   ↓
+20  50  10  30
+
+It did not become:
+
+[50, 30, 20, 10]
+reversed()
+
+reversed() gives you a reversed iterator rather than directly changing the list.
+
+For now, the important difference is:
+
+numbers.reverse()
+
+→ changes the original list.
+
+reversed(numbers)
+
+→ does not change the original list.
+
+If you want a new list:
+
+numbers = [10, 20, 30]
+
+
+result = list(reversed(numbers))
+
+
+print(result)
+
+Output:
+
+[30, 20, 10]
+
+Your mental model
+Operation	Changes original?	Result
+sort()	     Yes	sorted list
+sorted()	 No    new sorted list
+reverse()	 Yes	reversed list
+reversed()	 No	    reversed iterator
+
+
+"""
+
+
+
+
+
+"""
+16. Copying List
+
+
+There are three things to understand first:
+
+Assignment
+copy()
+list()
+
+Then we'll understand shallow copy.
+
+1. Assignment is NOT copying
+
+Suppose:
+
+numbers = [10, 20, 30]
+
+Now:
+
+new_numbers = numbers
+
+You might think:
+
+"I created another list."
+
+But you didn't.
+
+Both variables refer to the same list.
+
+numbers ──────┐
+              ↓
+         [10, 20, 30]
+              ↑
+              │
+new_numbers ──┘
+
+So:
+
+numbers = [10, 20, 30]
+
+
+new_numbers = numbers
+
+
+new_numbers[0] = 100
+
+
+print(numbers)
+print(new_numbers)
+
+Output:
+
+[100, 20, 30]
+[100, 20, 30]
+
+ Why did numbers change?
+
+Because there is still only one list.
+
+numbers and new_numbers are just two names referring to it.
+
+2. copy()
+
+If you actually want a separate list:
+
+numbers = [10, 20, 30]
+
+
+new_numbers = numbers.copy()
+
+Now there are two lists:
+
+numbers      → [10, 20, 30]
+
+
+new_numbers  → [10, 20, 30]
+
+Changing one doesn't change the other:
+
+new_numbers[0] = 100
+
+
+print(numbers)
+print(new_numbers)
+
+Output:
+
+[10, 20, 30]
+[100, 20, 30]
+
+That's an actual copy.
+
+3. list()
+
+You can also create a copy using:
+
+numbers = [10, 20, 30]
+
+
+new_numbers = list(numbers)
+
+Now:
+
+new_numbers[0] = 100
+
+
+print(numbers)
+print(new_numbers)
+
+Output:
+
+[10, 20, 30]
+[100, 20, 30]
+
+So for a simple list:
+
+numbers.copy()
+
+and
+
+list(numbers)
+
+both create a new list.
+
+The important difference
+Assignment
+new = old
+
+ Doesn't create a new list.
+
+copy()
+new = old.copy()
+
+ Creates a new list.
+
+list()
+new = list(old)
+
+ Creates a new list.
+
+
+"""
+
+"""
+17. Shallow Copy
+
+Start simple
+numbers = [10, 20, 30]
+
+Think:
+
+numbers ─────→ [10, 20, 30]
+
+When you do:
+
+new_numbers = numbers
+
+Python doesn't create another list.
+
+numbers ───────┐
+               ↓
+          [10, 20, 30]
+               ↑
+new_numbers ───┘
+
+That's why changing one changes the other.
+
+Now copy()
+new_numbers = numbers.copy()
+
+Python creates a new outer list:
+
+numbers ───────→ [10, 20, 30]
+
+
+new_numbers ──→ [10, 20, 30]
+
+Two different lists. 
+
+Now the interesting part
+
+Suppose:
+
+numbers = [[1, 2], [3, 4]]
+
+Think of it as:
+
+numbers
+   ↓
+┌───────────────┐
+│      ●        │────→ [1, 2]
+│      ●        │────→ [3, 4]
+└───────────────┘
+
+Then:
+
+new_numbers = numbers.copy()
+
+Python copies the outer container, but it doesn't recursively copy everything inside it.
+
+So:
+
+numbers
+   ↓
+┌───────────────┐
+│      ●──────────────→ [1, 2]
+│      ●──────────────→ [3, 4]
+└───────────────┘
+
+
+new_numbers
+   ↓
+┌───────────────┐
+│      ●──────────────→ [1, 2]
+│      ●──────────────→ [3, 4]
+└───────────────┘
+
+Notice:
+
+Two outer lists
+but
+the same inner lists.
+
+That's why:
+
+new_numbers[0].append(100)
+
+changes the shared inner list.
+
+Why does Python work this way?
+
+Because copying everything recursively can be expensive and unnecessary.
+
+Imagine:
+
+company = [
+    [1000 employees],
+    [500 projects],
+    [200 departments],
+    [many other objects...]
+]
+
+If Python automatically copied everything inside everything, a simple .copy() could potentially duplicate a huge amount of data.
+
+Instead, a shallow copy says:
+
+"Give me a new outer container, but keep references to the existing objects inside."
+
+
+If you have a list containing other lists:
+
+numbers = [[1, 2], [3, 4]]
+
+and make a shallow copy:
+
+new_numbers = numbers.copy()
+
+then:
+
+The outer lists are separate 
+The inner lists are shared 
+
+So if you change an inner list, both appear to change:
+
+new_numbers[0].append(100)
+
+
+print(numbers)
+print(new_numbers)
+
+Both become:
+
+[[1, 2, 100], [3, 4]]
+But this is important:
+
+If you change the outer list itself, they don't affect each other.
+
+new_numbers.append([5, 6])
+
+Now:
+
+numbers
+→ [[1, 2], [3, 4]]
+
+
+new_numbers
+→ [[1, 2], [3, 4], [5, 6]]
+
+So remember:
+
+Shallow copy = outer list is copied, inner objects are shared.
+
+"""
+
+
+"""
+18. Combining Lists
+
+You have two things in your syllabus:
+
++
+extend()
+
+You already learned extend(), so this should be quick.
+
++
+
++ creates a new list by combining two lists.
+
+a = [10, 20]
+b = [30, 40]
+
+
+c = a + b
+
+
+print(c)
+
+Output:
+
+[10, 20, 30, 40]
+
+Importantly, a and b remain unchanged.
+
+a → [10, 20]
+b → [30, 40]
+c → [10, 20, 30, 40]
+
+Compare that with extend():
+
+a = [10, 20]
+b = [30, 40]
+
+
+a.extend(b)
+
+Now:
+
+a → [10, 20, 30, 40]
+b → [30, 40]
+
+So the key difference:
+
+a + b
+→ creates a new combined list
+
+
+a.extend(b)
+→ modifies a
+
+
+"""
+
+
+
+
+
+
+
+"""
+19. List Unpacking
+
+You have:
+
+numbers = [10, 20, 30]
+
+Normally, you access elements using indexes:
+
+numbers[0]  # 10
+numbers[1]  # 20
+numbers[2]  # 30
+
+But unpacking lets you take the elements out into separate variables:
+
+a, b, c = numbers
+
+Now:
+
+a → 10
+b → 20
+c → 30
+
+So:
+
+print(a)
+print(b)
+print(c)
+
+gives:
+
+10
+20
+30
+The important rule
+
+The number of variables should normally match the number of elements.
+
+This works:
+
+numbers = [10, 20, 30]
+
+
+a, b, c = numbers
+
+But this doesn't:
+
+a, b = numbers
+
+because Python has:
+
+3 values
+2 variables
+
+So you'll get:
+
+ValueError
+
+
+
+⭐ Extended unpacking
+
+Python also allows *.
+
+numbers = [10, 20, 30, 40, 50]
+
+
+a, *b = numbers
+
+Now:
+
+a → 10
+b → [20, 30, 40, 50]
+
+The *b says:
+
+"Put all the remaining elements into b."
+
+Another example:
+
+a, b, *c = numbers
+
+Gives:
+
+a → 10
+b → 20
+c → [30, 40, 50]
+
+And:
+
+*a, b = numbers
+
+Gives:
+
+a → [10, 20, 30, 40]
+b → 50
+Don't overthink * yet
+
+The basic idea is:
+
+a, b, c = [10, 20, 30]
+
+→ each value goes into one variable.
+
+And:
+
+a, *b = [10, 20, 30, 40]
+
+→ a gets the first, b gets the remaining values as a list.
+
+"""
