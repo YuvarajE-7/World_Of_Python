@@ -571,3 +571,583 @@ Start is included, end is excluded.
 The only difference is that with a negative step, we're moving backward.
 
 """
+
+
+"""
+10 .Updating Elements in a List
+
+This is straightforward because lists are mutable.
+
+We use indexing to select the element we want to change.
+
+numbers = [10, 20, 30, 40, 50]
+
+Suppose we want to change 30 to 300.
+
+30 is at index 2:
+
+numbers[2] = 300
+
+Now:
+
+print(numbers)
+
+Output:
+
+[10, 20, 300, 40, 50]
+You can also use negative indexing
+numbers[-1] = 500
+
+Now:
+
+[10, 20, 300, 40, 500]
+You can update multiple elements using slicing
+
+For example:
+
+numbers = [10, 20, 30, 40, 50]
+
+
+numbers[1:3] = [200, 300]
+
+
+print(numbers)
+
+Output:
+
+[10, 200, 300, 40, 50]
+
+Here:
+
+numbers[1:3]
+
+selects:
+
+20, 30
+
+and we replace them with:
+
+200, 300
+
+"""
+
+"""
+11. Adding Element to the List
+
+There are 3 methods you need to know:
+
+append()
+insert()
+extend()
+
+Let's take them one at a time.
+
+1. append()
+
+append() adds one element to the end of the list.
+
+numbers = [10, 20, 30]
+
+
+numbers.append(40)
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 30, 40]
+
+Think:
+
+Before: [10, 20, 30]
+
+
+append(40)
+
+
+After:  [10, 20, 30, 40]
+                         ↑
+                      added
+Important
+
+Even if you append multiple values together:
+
+numbers.append([40, 50])
+
+you are adding one element:
+
+[10, 20, 30, [40, 50]]
+
+This is different from extend(), which we'll see next.
+
+2. insert()
+
+insert() lets you add an element at a specific position.
+
+Syntax:
+
+list.insert(index, value)
+
+Example:
+
+numbers = [10, 20, 30]
+
+
+numbers.insert(1, 100)
+
+
+print(numbers)
+
+Output:
+
+[10, 100, 20, 30]
+
+We said:
+
+numbers.insert(1, 100)
+
+So Python puts 100 at index 1.
+
+The existing elements shift to the right.
+
+Before:
+
+
+index:   0    1    2
+        10   20   30
+
+
+After:
+
+
+index:   0    1    2    3
+        10  100   20   30
+             ↑
+          inserted
+3. extend()
+
+extend() adds multiple elements to the end of a list.
+
+numbers = [10, 20, 30]
+
+
+numbers.extend([40, 50, 60])
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 30, 40, 50, 60]
+
+Think of it as joining the elements of another list onto the first list.
+
+The important difference
+numbers.append([40, 50])
+
+gives:
+
+[10, 20, 30, [40, 50]]
+
+But:
+
+numbers.extend([40, 50])
+
+gives:
+
+[10, 20, 30, 40, 50]
+
+That's one of the most important differences between append() and extend().
+
+Simple rule
+Method	What it does
+append(x)	Add one element at the end
+insert(i, x)	Add one element at a specific position
+extend(x)	Add multiple elements
+
+"""
+
+"""
+12 .Removing Elements 
+We have four things:
+
+remove()
+pop()
+del
+clear()
+
+They all remove things, but they work differently.
+
+1. remove()
+
+remove() removes an element by its value.
+
+numbers = [10, 20, 30, 40]
+
+
+numbers.remove(30)
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 40]
+
+You tell Python what value to remove.
+
+numbers.remove(30)
+               ↑
+             value
+If the value doesn't exist?
+numbers.remove(100)
+
+You'll get:
+
+ValueError
+
+We'll discuss this more when we learn error handling.
+
+2. pop()
+
+pop() removes an element by its index.
+
+numbers = [10, 20, 30, 40]
+
+
+numbers.pop(2)
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 40]
+
+Because index 2 contains 30.
+
+Special thing about pop()
+
+pop() returns the removed element.
+
+numbers = [10, 20, 30, 40]
+
+
+x = numbers.pop(2)
+
+
+print(x)
+print(numbers)
+
+Output:
+
+30
+[10, 20, 40]
+
+This is useful when you actually want to use the removed value.
+
+pop() without an index
+numbers.pop()
+
+removes the last element.
+
+numbers = [10, 20, 30, 40]
+
+
+numbers.pop()
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 30]
+
+
+
+3. del
+
+del can remove an element using its index.
+
+numbers = [10, 20, 30, 40]
+
+
+del numbers[2]
+
+
+print(numbers)
+
+Output:
+
+[10, 20, 40]
+
+You can also delete a range using slicing:
+
+numbers = [10, 20, 30, 40, 50]
+
+
+del numbers[1:4]
+
+
+print(numbers)
+
+Output:
+
+[10, 50]
+
+So del is more flexible than just removing one element.
+
+
+
+
+4. clear()
+
+clear() removes everything from the list.
+
+numbers = [10, 20, 30, 40]
+
+
+numbers.clear()
+
+
+print(numbers)
+
+Output:
+
+[]
+
+The list still exists. It's just empty.
+
+The important difference
+Method	Removes using	Example
+remove()	value	numbers.remove(30)
+pop()	index	numbers.pop(2)
+del	index / slice	del numbers[2]
+clear()	everything	numbers.clear()
+One extra difference
+
+pop() gives you the removed value:
+
+x = numbers.pop(2)
+
+while:
+
+numbers.remove(30)
+del numbers[2]
+
+don't give you the removed element.
+
+
+One more important thing about remove()
+
+If duplicates exist:
+
+numbers = [10, 20, 30, 30, 40]
+
+
+numbers.remove(30)
+
+
+print(numbers)
+
+Result:
+
+[10, 20, 30, 40]
+
+It removes the first matching 30.
+
+"""
+
+
+"""
+13. Searching
+
+We have two things:
+
+in
+index()
+
+They answer slightly different questions.
+
+1. in
+
+in checks whether a value exists in the list.
+
+numbers = [10, 20, 30, 40, 50]
+
+
+print(30 in numbers)
+
+Output:
+
+True
+
+Because 30 exists.
+
+print(100 in numbers)
+
+Output:
+
+False
+Very useful with if
+numbers = [10, 20, 30, 40, 50]
+
+
+if 30 in numbers:
+    print("30 is present")
+
+Output:
+
+30 is present
+
+You can also use not in:
+
+if 100 not in numbers:
+    print("100 is not present")
+2. index()
+
+index() tells you where a value is located.
+
+numbers = [10, 20, 30, 40, 50]
+
+
+print(numbers.index(30))
+
+Output:
+
+2
+
+Because:
+
+Value:  10   20   30   40   50
+Index:   0    1    2    3    4
+                  ↑
+in vs index()
+
+This is the key difference:
+
+30 in numbers
+
+asks:
+
+Does 30 exist?
+
+Answer:
+
+True
+
+While:
+
+numbers.index(30)
+
+asks:
+
+Where is 30?
+
+Answer:
+
+2
+
+What if the value doesn't exist?
+numbers.index(100)
+
+This produces:
+
+ValueError
+
+So if you're not sure whether something exists, you can first check:
+
+if 100 in numbers:
+    print(numbers.index(100))
+
+
+##########################################
+    And yes, if:
+
+numbers = [10, 20, 30, 40, 30, 50]
+
+then:
+
+numbers.index(30)
+
+→ 2
+
+It doesn't return 4, even though another 30 is there.
+
+"""
+
+"""
+14.Counting
+
+count() tells you how many times a value appears.
+
+numbers = [10, 20, 30, 30, 40, 30]
+
+
+print(numbers.count(30))
+
+Output:
+
+3
+
+So:
+
+numbers.count(30)
+
+means:
+
+"How many times does 30 occur in this list?"
+
+
+###################################
+Also
+
+numbers = [10, 20, 30, 30, 40, 30, 50]
+
+numbers.count(100)
+
+does not give an error.
+
+It gives:
+
+0
+
+Because count() simply asks:
+
+"How many times does 100 occur?"
+
+Since it doesn't occur:
+
+0 times
+
+
+
+Compare this with index():
+
+numbers.index(100)
+
+→ ValueError
+
+because index() needs to find a position.
+
+But:
+
+numbers.count(100)
+
+→ 0
+
+because zero occurrences is a perfectly valid answer.
+
+Mental model
+in       → Does it exist?       → True / False
+
+
+index()  → Where is it?         → index
+
+
+count()  → How many times?      → number
+
+
+"""
+
