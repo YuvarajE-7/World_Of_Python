@@ -1836,3 +1836,404 @@ a, *b = [10, 20, 30, 40]
 → a gets the first, b gets the remaining values as a list.
 
 """
+
+"""
+20. Iterating through Lists
+
+Iteration simply means:
+
+Going through the elements of a list one by one.
+
+Suppose:
+
+numbers = [10, 20, 30, 40]
+1. Using a for loop
+for number in numbers:
+    print(number)
+
+Output:
+
+10
+20
+30
+40
+
+What happens internally:
+
+numbers
+   ↓
+[10, 20, 30, 40]
+
+
+first → number = 10
+second → number = 20
+third → number = 30
+fourth → number = 40
+
+You don't need to manually use indexes.
+
+2. Iterating with the index
+
+You can also use range():
+
+numbers = [10, 20, 30, 40]
+
+
+for i in range(len(numbers)):
+    print(numbers[i])
+
+Output:
+
+10
+20
+30
+40
+
+Here:
+
+len(numbers)
+
+is 4, so:
+
+range(4)
+
+produces:
+
+0 1 2 3
+
+Then:
+
+numbers[i]
+
+gets each element.
+
+Difference
+
+Usually, if you just need the values:
+
+for number in numbers:
+    print(number)
+
+is cleaner.
+
+If you need the index as well, you can use:
+
+for i in range(len(numbers)):
+    print(i, numbers[i])
+
+which gives:
+
+0 10
+1 20
+2 30
+3 40
+3. Iterating with conditions
+
+This is where lists become more useful.
+
+Suppose we want only numbers greater than 25:
+
+numbers = [10, 20, 30, 40, 50]
+
+
+for number in numbers:
+    if number > 25:
+        print(number)
+
+Output:
+
+30
+40
+50
+
+So you're combining:
+
+list → loop → condition
+
+This pattern is very important in real programs.
+
+4. Modifying elements while iterating
+
+Suppose:
+
+numbers = [10, 20, 30]
+
+You might try:
+
+for number in numbers:
+    number = number * 2
+
+But this doesn't modify the list.
+
+The list remains:
+
+[10, 20, 30]
+
+If you actually want to modify the elements, use indexes:
+
+numbers = [10, 20, 30]
+
+
+for i in range(len(numbers)):
+    numbers[i] = numbers[i] * 2
+
+
+print(numbers)
+
+Output:
+
+[20, 40, 60]
+
+"""
+
+
+
+"""
+21. Nested List
+
+A nested list is simply a list that contains another list as an element.
+
+For example:
+
+students = [
+    ["Arun", 20],
+    ["Rahul", 21],
+    ["Priya", 19]
+]
+
+Think of it as:
+
+students
+   ↓
+[
+   ["Arun", 20],
+   ["Rahul", 21],
+   ["Priya", 19]
+]
+
+The outer list has 3 elements, and each element is itself a list.
+
+Accessing the inner lists
+print(students[0])
+
+Output:
+
+["Arun", 20]
+print(students[1])
+
+Output:
+
+["Rahul", 21]
+Accessing an element inside the inner list
+
+This is where it gets interesting.
+
+print(students[0][0])
+
+Output:
+
+Arun
+
+Why?
+
+First:
+
+students[0]
+
+gives:
+
+["Arun", 20]
+
+Then:
+
+students[0][0]
+
+takes index 0 from that inner list:
+
+Arun
+
+Similarly:
+
+students[0][1]
+
+→ 20
+
+And:
+
+students[2][0]
+
+→ Priya
+
+Think of it as two indexes
+students[outer][inner]
+
+For:
+
+students[2][1]
+
+First:
+
+students[2]
+     ↓
+["Priya", 19]
+
+Then:
+
+[1]
+ ↓
+19
+
+So:
+
+students[2][1]
+
+→ 19
+
+
+
+
+
+
+################################################
+
+
+Modifying Nested Lists
+
+Nested lists are still mutable, just like normal lists.
+
+Given:
+
+students = [
+    ["Arun", 20],
+    ["Rahul", 21],
+    ["Priya", 19]
+]
+
+We can change Rahul's age:
+
+students[1][1] = 22
+
+Now:
+
+print(students)
+
+Output:
+
+[
+    ["Arun", 20],
+    ["Rahul", 22],
+    ["Priya", 19]
+]
+You can also change the whole inner list
+students[0] = ["Arun", 25]
+
+Now:
+
+[
+    ["Arun", 25],
+    ["Rahul", 22],
+    ["Priya", 19]
+]
+
+So remember the difference:
+
+students[1][1] = 22
+
+→ changes one value inside the inner list.
+
+While:
+
+students[1] = ["Rahul", 30]
+
+→ replaces the entire inner list.
+
+
+
+#####################################################
+
+Looping Through Nested Lists
+
+This is the important part.
+
+Given:
+
+students = [
+    ["Arun", 20],
+    ["Rahul", 21],
+    ["Priya", 19]
+]
+
+We already know how to loop through a normal list:
+
+for student in students:
+    print(student)
+
+Output:
+
+["Arun", 20]
+["Rahul", 21]
+["Priya", 19]
+
+Notice:
+
+student
+   ↓
+["Arun", 20]
+
+Each student is itself a list.
+
+Loop inside a loop
+
+If you want to print every individual value:
+
+for student in students:
+    for value in student:
+        print(value)
+
+Output:
+
+Arun
+20
+Rahul
+21
+Priya
+19
+
+Think:
+
+Outer loop
+   ↓
+["Arun", 20]
+   ↓
+   Inner loop → Arun
+                20
+
+
+Outer loop
+   ↓
+["Rahul", 21]
+   ↓
+   Inner loop → Rahul
+                21
+
+This is called a nested loop.
+
+But there's a cleaner way
+
+Since we know each inner list contains:
+
+[name, age]
+
+we can unpack while looping:
+
+for name, age in students:
+    print(name, age)
+
+Output:
+
+Arun 20
+Rahul 21
+Priya 19
+
+"""
+
