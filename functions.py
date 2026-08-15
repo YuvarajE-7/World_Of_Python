@@ -1025,3 +1025,533 @@ city Chennai
 
 
 """
+
+
+
+
+"""
+6. Scope 
+
+1. What is Scope?
+
+Scope defines where a variable can be accessed and used in a program.
+
+For functions, the two important scopes are:
+
+Local scope → inside a function
+Global scope → outside functions
+
+
+2. Local Variables
+
+A variable created inside a function is a local variable.
+
+def greet():
+    name = "Arjun"
+    print(name)
+
+
+greet()
+
+Here, name is local to greet().
+
+It cannot normally be accessed outside:
+
+def greet():
+    name = "Arjun"
+
+
+greet()
+print(name)   # Error
+
+
+Key point
+
+A local variable belongs to the function in which it is created.
+
+
+
+
+
+3. Global Variables
+
+A variable created outside all functions is a global variable.
+
+name = "Arjun"
+
+
+def greet():
+    print(name)
+
+
+greet()
+
+Output:
+
+Arjun
+
+A function can read a global variable.
+
+
+
+
+4. Local vs Global Variable with Same Name
+x = 10
+
+
+def test():
+    x = 20
+    print(x)
+
+
+test()
+print(x)
+
+Output:
+
+20
+10
+
+Why?
+
+There are two different variables:
+
+Global x → 10
+Local x  → 20
+
+The local x does not change the global x.
+
+
+
+5. What Variables Can a Function Access?
+
+A function can access:
+
+Its own local variables
+
+def test():
+    x = 10
+    print(x)
+
+
+
+Global variables
+
+x = 10
+
+def test():
+    print(x)
+
+But a function cannot access another function's local variable:
+
+def first():
+    x = 10
+
+
+def second():
+    print(x)   # Error
+
+x belongs only to first().
+
+6. Reading a Global Variable
+
+Reading a global variable inside a function is allowed.
+
+x = 10
+
+
+def test():
+    print(x)
+
+
+test()
+
+Output:
+
+10
+
+You do not need the global keyword just to read it.
+
+7. Assignment Creates a Local Variable
+
+This is an important rule.
+
+x = 10
+
+
+def test():
+    x = 20
+
+
+test()
+
+
+print(x)
+
+Output:
+
+10
+
+The x = 20 creates a new local x.
+
+It does not modify the global x.
+
+8. Why UnboundLocalError Happens
+
+Consider:
+
+x = 10
+
+
+def test():
+    print(x)
+    x = 20
+
+
+test()
+
+This causes:
+
+UnboundLocalError
+Why?
+
+Because Python sees:
+
+x = 20
+
+inside the function.
+
+Therefore, Python treats x as local throughout the function.
+
+So this:
+
+print(x)
+
+is trying to read the local x before it has been assigned a value.
+
+Conceptually:
+
+test()
+ ↓
+local x exists
+ ↓
+print(x)     ← x has no value yet ❌
+ ↓
+x = 20
+
+
+
+9. global Keyword
+
+The global keyword tells Python:
+
+Use the global variable instead of creating a local variable.
+
+Example:
+
+x = 10
+
+
+def test():
+    global x
+    x = 20
+
+
+test()
+
+
+print(x)
+
+Output:
+
+20
+
+Now x = 20 modifies the global x.
+
+10. Reading + Modifying a Global Variable
+
+Without global:
+
+x = 10
+
+
+def test():
+    print(x)
+    x = 20
+
+❌ UnboundLocalError
+
+With global:
+
+x = 10
+
+
+def test():
+    global x
+    print(x)
+    x = 20
+
+
+test()
+
+
+print(x)
+
+Output:
+
+10
+20
+
+Because global x tells Python that both:
+
+print(x)
+x = 20
+
+refer to the same global variable.
+
+11. Important Rule
+
+Remember this:
+
+Reading a global variable → global not required.
+
+x = 10
+
+
+def test():
+    print(x)
+
+✅
+
+Assigning to a global variable → global required.
+
+x = 10
+
+
+def test():
+    global x
+    x = 20
+
+✅
+  
+12. Scope Summary
+                    Program
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+        Global Scope        Function Scope
+             │                   │
+          x = 10              y = 20
+             │                   │
+             │             local variable
+             │
+       accessible inside
+          functions
+
+
+Quick reference
+Situation	Result
+Variable created outside function	Global
+Variable created inside function	Local
+
+Function reads global	✅ Allowed
+Function creates local	✅ Allowed
+Local variable accessed outside function	❌ Error
+Function modifies global without global	❌ Not allowed
+global x inside function	Allows modification of global x
+Read global variable	No global needed
+The one rule I'd remember most
+
+Python sees an assignment to x inside a function → x is treated as local unless you explicitly say global x.
+
+
+"""
+
+
+
+"""
+7.Lambda Functions
+
+1. What is a Lambda Function?
+
+A lambda function is a small function written in a single line.
+
+Normal function:
+
+def square(x):
+    return x * x
+
+The same idea using lambda:
+
+square = lambda x: x * x
+
+Then:
+
+print(square(5))
+
+Output:
+
+25
+
+So you can think of:
+
+lambda x: x * x
+
+as:
+
+"Take x and return x * x."
+
+2. Lambda Syntax
+
+The basic syntax is:
+
+lambda parameters: expression
+
+For example:
+
+lambda x: x * 2
+
+Break it down:
+
+lambda   → tells Python we're creating a lambda
+x        → parameter
+:        → separates parameter from the expression
+x * 2    → expression/result
+
+Compare with a normal function:
+
+def double(x):
+    return x * 2
+
+Lambda:
+
+double = lambda x: x * 2
+
+Both do the same thing.
+
+3. Lambda with Multiple Parameters
+
+You can have multiple parameters:
+
+add = lambda a, b: a + b
+
+
+print(add(5, 3))
+
+Output:
+
+8
+
+Equivalent normal function:
+
+def add(a, b):
+    return a + b
+4. Lambda Doesn't Need an Explicit return
+
+Normal function:
+
+def square(x):
+    return x * x
+
+Lambda:
+
+square = lambda x: x * x
+
+The expression after : is automatically the result.
+
+So don't write:
+
+lambda x: return x * x
+
+❌ That's invalid.
+
+5. Lambda with Conditions
+
+You can also use a conditional expression.
+
+check = lambda x: "Even" if x % 2 == 0 else "Odd"
+
+
+print(check(4))
+print(check(7))
+
+Output:
+
+Even
+Odd
+
+Don't worry about making complicated lambdas. They're intended for small operations.
+
+6. Why Do We Need Lambda?
+
+This is the important question.
+
+Suppose you need a function only once:
+
+def double(x):
+    return x * 2
+
+
+numbers = [1, 2, 3, 4]
+
+Creating a named function just for one small operation can sometimes be unnecessary.
+
+Lambda lets you write the function directly:
+
+lambda x: x * 2
+
+This becomes especially useful with:
+
+map()
+filter()
+reduce()
+sorting with custom conditions
+
+You'll see why when we reach those topics.
+
+7. Lambda vs Normal Function
+Normal function
+def square(x):
+    return x * x
+
+Good when:
+
+Function is reused
+Logic is more complicated
+Function needs multiple statements
+You want a descriptive function name
+Lambda
+lambda x: x * x
+
+Good when:
+
+Operation is very small
+Function is used temporarily
+You don't need a full named function
+
+Think:
+
+Lambda = small, temporary/simple function.
+
+8. Important Limitation
+
+A lambda is limited to one expression.
+
+This is fine:
+
+square = lambda x: x * x
+
+But you can't write a normal multi-line function with several statements inside a lambda.
+
+So don't think:
+
+"Lambda is a better version of def."
+
+It's not.
+
+It's simply a convenient way of creating a small function.
+
+
+
+"""
+
