@@ -826,6 +826,143 @@ Those aren't collected by *args.
 
 That's where **kwargs comes in.
 
+7. Normal parameters before *args
+
+You can have normal parameters before *args.
+
+def show(a, b, *args):
+    print(a)
+    print(b)
+    print(args)
+
+Calling:
+
+show(10, 20, 30, 40, 50)
+
+Output:
+
+10
+20
+(30, 40, 50)
+
+Python assigns:
+
+a = 10
+b = 20
+args = (30, 40, 50)
+Rule
+
+Normal positional parameters get their values first. *args collects the remaining positional arguments.
+
+You can have multiple normal parameters:
+
+def func(a, b, c, *args):
+    ...
+8. Parameters after *args are keyword-only
+
+You can write:
+
+def func(*args, x):
+    print(args)
+    print(x)
+
+But x must be provided using a keyword.
+
+func(10, 20, 30, x=40)
+
+Here:
+
+args = (10, 20, 30)
+x = 40
+
+But:
+
+func(10, 20, 30, 40)
+
+❌ Error.
+
+Because x is keyword-only.
+
+9. * also performs unpacking
+
+The * has another use when calling a function.
+
+Suppose:
+
+def add(a, b, c):
+    return a + b + c
+
+And:
+
+numbers = (10, 20, 30)
+
+This:
+
+add(numbers)
+
+❌ passes the entire tuple as one argument.
+
+But:
+
+add(*numbers)
+
+unpacks the tuple:
+
+numbers = (10, 20, 30)
+
+
+        ↓ *
+
+
+10, 20, 30
+
+So:
+
+add(*numbers)
+
+is equivalent to:
+
+add(10, 20, 30)
+
+
+10. Packing vs Unpacking
+
+This is the important distinction.
+
+Function definition
+def func(*args):
+
+* → collect / pack
+
+10, 20, 30
+     ↓
+(10, 20, 30)
+Function call
+func(*numbers)
+
+* → unpack
+
+(10, 20, 30)
+     ↓
+10, 20, 30
+Remember
+
+Definition → *args collects.
+
+Function call → *values unpacks.
+
+11. Unpacking works with lists too
+numbers = [10, 20, 30]
+
+
+add(*numbers)
+
+is equivalent to:
+
+add(10, 20, 30)
+
+So * can unpack an iterable such as a list or tuple into positional arguments.
+
 """
 
 
@@ -894,7 +1031,11 @@ So remember:
 
 
 **kwargs    → keyword arguments   → dictionary
+
+
 9. Practical **kwargs example
+
+
 def student(**details):
     for key, value in details.items():
         print(key, ":", value)
@@ -1022,7 +1163,133 @@ name Arjun
 age 20
 city Chennai
 
+#############################################################
 
+Also needto know that
+
+1. **kwargs doesn't mean the arguments must be named kwargs
+
+The name is just a variable name:
+
+def student(**details):
+    print(details)
+
+
+student(name="Arjun", age=20)
+
+Here details is the dictionary.
+
+kwargs is simply the conventional name.
+
+2. ** is also used for unpacking
+
+This is an important concept.
+
+details = {
+    "name": "Arjun",
+    "age": 20
+}
+
+
+student(**details)
+
+Python effectively passes:
+
+student(name="Arjun", age=20)
+
+So:
+
+**kwargs
+   ↓
+COLLECTS keyword arguments
+
+while:
+
+**dictionary
+   ↓
+UNPACKS a dictionary into keyword arguments
+
+This distinction is very important.
+
+3. Normal parameters + **kwargs
+
+You can combine them:
+
+def student(name, **details):
+    print(name)
+    print(details)
+
+
+student("Arjun", age=20, branch="CSE")
+
+Conceptually:
+
+name = "Arjun"
+
+
+details = {
+    "age": 20,
+    "branch": "CSE"
+}
+4. *args + **kwargs + normal parameters
+
+You should know the complete pattern:
+
+def test(a, b=10, *args, **kwargs):
+    print(a)
+    print(b)
+    print(args)
+    print(kwargs)
+
+For example:
+
+test(
+    1,
+    2,
+    3,
+    4,
+    name="Arjun",
+    age=20
+)
+
+Gives conceptually:
+
+a      → 1
+b      → 2
+args   → (3, 4)
+kwargs → {"name": "Arjun", "age": 20}
+5. Keyword-only parameters
+
+This is the next concept connected to *args:
+
+def student(name, *, age, branch):
+    print(name, age, branch)
+
+You must call:
+
+student("Arjun", age=20, branch="CSE")
+
+But this is invalid:
+
+student("Arjun", 20, "CSE")
+
+The * means everything after it must be supplied as a keyword argument.
+
+6. **kwargs can be restricted indirectly
+
+For example:
+
+def student(**kwargs):
+    if "name" in kwargs:
+        print(kwargs["name"])
+
+You should know common dictionary operations because kwargs is a normal dictionary inside the function:
+
+kwargs.keys()
+kwargs.values()
+kwargs.items()
+kwargs.get("name")
+"name" in kwargs
 
 """
 
@@ -4159,6 +4426,82 @@ factorial(3) → 3 × 2 = 6
 factorial(4) → 4 × 6 = 24
 
 This is called unwinding the recursion.
+
+How does python remeber during unwinding?
+
+It "remembers" because Python keeps each function call in memory using the call stack.
+
+Let's see it slowly.
+
+Suppose we call:
+factorial(4)
+
+Python creates a little memory space for it:
+
+factorial(4)
+n = 4
+waiting for factorial(3)
+
+Then it calls factorial(3):
+
+factorial(3)
+n = 3
+waiting for factorial(2)
+
+
+factorial(4)
+n = 4
+waiting for factorial(3)
+
+Then:
+
+factorial(2)
+n = 2
+waiting for factorial(1)
+
+
+factorial(3)
+n = 3
+waiting for factorial(2)
+
+
+factorial(4)
+n = 4
+waiting for factorial(3)
+
+Then:
+
+factorial(1)
+n = 1
+return 1
+
+Now Python says:
+
+"Okay, factorial(1) gave me 1. Who was waiting for this?"
+
+It finds:
+
+factorial(2)
+
+So:
+
+2 × 1 = 2
+
+Then Python goes back to:
+
+factorial(3)
+
+and does:
+
+3 × 2 = 6
+
+Then:
+
+factorial(4)
+
+and does:
+
+4 × 6 = 24
 
 6. Recursion and the Call Stack
 
